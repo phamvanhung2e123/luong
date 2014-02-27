@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log report page</title>
+    <!-- Normalize -->
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/bower_components/normalize-css/normalize.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Odometer -->
+    <link href="/bower_components/odometer/themes/odometer-theme-car.css" rel="stylesheet">
+</head>
+<body class="my-body">
+<div class="container">
+
+    <!-- Label -->
+    <div class="row">
+        <h1 class="text-left title">Log report page</h1>
+        <hr/>
+    </div>
+
+    <!-- Current value -->
+    <div class="row">
+        <input type="hidden" name="current_new" value="<%= new_user %>" id="hidden_new"/>
+        <input type="hidden" name="current_all" value="<%= all_user %>" id="hidden_all"/>
+    </div>
+
+    <!-- Count down date -->
+    <div class="row title">
+        <div class="col-lg-12">
+            <div id="next-month">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <hr>
+    </div>
+
+    <!-- Show information -->
+    <div class="row">
+        <div class="jumbotron">
+            <div class="odometer" id="new_user_label">1</div>
+        </div>
+
+    </div>
+
+    <!--
+    <div class="row">
+        <div class="jumbotron">
+            <img data-src="holder.js/180x180/vine/text:<%= new_user %> new users" class="img-circle" id="new_user">
+
+            <img data-src="holder.js/180x180/lava/text:Have <%= all_user %>  users" class="img-circle">
+
+            <img data-src="holder.js/180x180/sky/text:Have <%= all_user %>  users" class="img-circle">
+        </div>
+    </div>
+    -->
+
+    <div class="row">
+        <div class="jumbotron" id="report">
+        </div>
+    </div>
+
+</div>
+
+<!-- Holder js -->
+<script src="/bower_components/holderjs/holder.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+<script src="/bower_components/jquery.countdown/dist/jquery.countdown.js"></script>
+
+<script src="/bower_components/datejs/build/date.js"></script>
+<script src="/bower_components/odometer/odometer.js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="javascripts/statistic.js"></script>
+</body>
+</html>

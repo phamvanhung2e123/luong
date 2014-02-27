@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="javascripts/chat.js"></script>
+</head>
+<body>
+<h1><%= title %></h1>
+
+<p>Welcome to <%= title %></p>
+
+<div>
+    <input type="text" name="field" id="field"/>
+    <button name="send" id="send">Send</button>
+</div>
+<hr/>
+<div id="content"></div>
+</body>
+</html>

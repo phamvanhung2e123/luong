@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Log report page</title>
+    <!-- Normalize -->
+    <link href="/bower_components/normalize-css/normalize.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<h1 class="text-center">Log report page</h1>
+<hr/>
+
+<div class="container">
+    <% if(message != ""){ %>
+    <div class="row">
+        <p class="alert alert-success"><%= message %></p>
+    </div>
+    <% } %>
+    <div class="jumbotron">
+        <form method="post" action="/report">
+            <div class="form-inline">
+                <input type="text" name="record" id="record" class="form-control"/>
+                <button name="send" class="btn btn-success" type="submit">Report</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Holder js -->
+<script src="/bower_components/holderjs/holder.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/bower_components/jquery/dist/jquery.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+</body>
+</html>
