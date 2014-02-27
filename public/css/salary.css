@@ -1,0 +1,53 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    background-color: #999999;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.my-body{
+    background-color: #dcdcdc;
+}
+
+.odometer{
+    font-size: 80px;
+}
+
+.weeks{
+    font-size: 80px;
+}
+
+.days{
+    font-size: 80px;
+}
+
+.hours{
+    font-size: 80px;
+}
+
+.minutes{
+    font-size: 80px;
+}
+
+.seconds{
+    font-size: 80px;
+}
+
+.label-text{
+    font-size: 80px;
+}
+
+.title{
+    background-color: #eee;
+    border-radius: 2px;
+    padding: 20px;
+}
+
+h1.title{
+    background-color: #eee;
+    border-radius: 2px;
+    padding: 20px;
+}
