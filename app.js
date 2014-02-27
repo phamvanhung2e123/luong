@@ -31,7 +31,7 @@ if ('development' == app.get('env'))
 	app.use(express.errorHandler());
 }
 
-var port = 3309;
+var port = 80;
 var io = require('socket.io').listen(app.listen(port));
 
 io.sockets.on("connection", function (socket) {
@@ -41,7 +41,10 @@ io.sockets.on("connection", function (socket) {
 	});
 });
 
-app.get('/', routes.index);
+app.get("/", function(req, res){
+	res.render("salary");
+});
+
 app.get('/users', user.list);
 var log = require("./controller/log")(io);
 app.all("/report", log.report);

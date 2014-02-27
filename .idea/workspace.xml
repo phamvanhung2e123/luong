@@ -32,6 +32,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="app.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="13" selection-start="834" selection-end="834" vertical-scroll-proportion="0.49029127" vertical-offset="192" max-vertical-offset="900">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="log.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/log.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -46,16 +55,16 @@
       <file leaf-file-name="statistic.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/statistic.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="21" selection-start="0" selection-end="2471" vertical-scroll-proportion="-16.875" vertical-offset="195" max-vertical-offset="1305">
+            <state line="79" column="31" selection-start="2438" selection-end="2438" vertical-scroll-proportion="-19.75" vertical-offset="711" max-vertical-offset="1305">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="salary.ejs" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="salary.ejs" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/salary.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="27" selection-start="125" selection-end="125" vertical-scroll-proportion="0.12626262" vertical-offset="0" max-vertical-offset="930">
+            <state line="5" column="27" selection-start="125" selection-end="125" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="930">
               <folding />
             </state>
           </provider>
@@ -91,7 +100,7 @@
       <file leaf-file-name="salary.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/javascripts/salary.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="13" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+            <state line="19" column="65" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
               <folding />
             </state>
           </provider>
@@ -101,17 +110,6 @@
         <entry file="file://$PROJECT_DIR$/models/UniqueUserModel.js">
           <provider selected="true" editor-type-id="text-editor">
             <state line="6" column="31" selection-start="173" selection-end="173" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
-              <folding>
-                <element signature="e#0#41#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MonthlyModel.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/MonthlyModel.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="28" selection-start="170" selection-end="170" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
               <folding>
                 <element signature="e#0#41#0" expanded="false" />
               </folding>
@@ -148,11 +146,11 @@
         <option value="$PROJECT_DIR$/controller/log.js" />
         <option value="$PROJECT_DIR$/public/javascripts/statistic.js" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
+        <option value="$PROJECT_DIR$/public/css/salary.css" />
+        <option value="$PROJECT_DIR$/views/salary.ejs" />
         <option value="$PROJECT_DIR$/views/statistic.ejs" />
         <option value="$PROJECT_DIR$/public/javascripts/salary.js" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/public/css/salary.css" />
-        <option value="$PROJECT_DIR$/views/salary.ejs" />
       </list>
     </option>
   </component>
@@ -743,30 +741,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/statistic.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="21" selection-start="0" selection-end="2471" vertical-scroll-proportion="-16.875" vertical-offset="195" max-vertical-offset="1305">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/statistic.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="9" selection-start="0" selection-end="1240" vertical-scroll-proportion="0.0" vertical-offset="27" max-vertical-offset="765">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/javascripts/salary.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="13" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="25" selection-start="1308" selection-end="1308" vertical-scroll-proportion="0.0" vertical-offset="192" max-vertical-offset="855">
           <folding />
         </state>
       </provider>
@@ -778,6 +755,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/views/salary.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="27" selection-start="125" selection-end="125" vertical-scroll-proportion="-3.125" vertical-offset="0" max-vertical-offset="930">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/salary.css">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="0" selection-start="227" selection-end="227" vertical-scroll-proportion="-4.6363635" vertical-offset="0" max-vertical-offset="870">
@@ -785,9 +769,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/salary.ejs">
+    <entry file="file://$PROJECT_DIR$/public/javascripts/salary.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="27" selection-start="125" selection-end="125" vertical-scroll-proportion="0.12626262" vertical-offset="0" max-vertical-offset="930">
+        <state line="19" column="65" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/statistic.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="31" selection-start="2438" selection-end="2438" vertical-scroll-proportion="-19.75" vertical-offset="711" max-vertical-offset="1305">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="13" selection-start="834" selection-end="834" vertical-scroll-proportion="0.49029127" vertical-offset="192" max-vertical-offset="900">
           <folding />
         </state>
       </provider>
