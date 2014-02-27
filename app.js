@@ -46,3 +46,6 @@ app.get('/users', user.list);
 var log = require("./controller/log")(io);
 app.all("/report", log.report);
 app.all("/sta", log.statistic);
+app.get("/luong", function(req, res){
+	res.render("salary");
+});
