@@ -15,6 +15,7 @@
 		"date-utils": "*",
 		"connect-flash": "*",
 		"util": "*",
-		"async":"*"
+		"async":"*",
+		"request": "*"
 	}
 }

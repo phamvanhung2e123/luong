@@ -1,13 +1,13 @@
 /**
  * Created by hoangnn on 2/27/14.
  */
-var LogModel = require("../models/LogModel");
+//var LogModel = require("../models/LogModel");
 var validator = require("validator");
 
 function parse(line)
 {
 	var maps = line.split(",");
-	var Log = new LogModel();
+	var Log = {};
 
 	if(validator.isNumeric(maps[0]))
 	{
@@ -32,6 +32,8 @@ function parse(line)
 	if(validator.isDate(maps[4]))
 	{
 		Log.register_date = maps[4];
+	}else{
+		Log.register_date = null;
 	}
 
 	if(validator.isDate(maps[5]))

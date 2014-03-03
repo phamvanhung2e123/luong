@@ -10,10 +10,23 @@ a {
 
 .my-body{
     background-color: #dcdcdc;
+    padding: 0px;
 }
 
 .odometer{
-    font-size: 48px;
+    font-size: 40px;
+}
+
+.register_count{
+    font-size: 40px;
+}
+
+.paid_user{
+    font-size: 40px;
+}
+
+.paid_value{
+    font-size: 40px;
 }
 
 .weeks{
@@ -50,4 +63,22 @@ h1.title{
     background-color: #eee;
     border-radius: 2px;
     padding: 20px;
+}
+
+.btn-circle {
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    font-size: 24px;
+    line-height: 1.42;
+    border-radius: 50%;
+    background-color: #0000FF;
+}
+
+.jumbotron p{
+    font-size: 48px;
+}
+
+.fix-height{
+    height: 400px;
 }

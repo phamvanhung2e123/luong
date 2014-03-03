@@ -6,10 +6,9 @@ var db = mongoose.createConnection('mongodb://localhost/log');
 
 var UniqueUserSchema = mongoose.Schema({
 	uuid: {type: String, index: true},
-	last_login_date: Date,
-	register_date: Date
+	last_login: Date,
+	register: Date
 });
-
-var UniqueUserModel = db.model("UniqueUserLog", UniqueUserSchema);
+var UniqueUserModel = db.model("UniqueUser", UniqueUserSchema);
 
 module.exports = UniqueUserModel;

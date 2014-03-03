@@ -2,13 +2,14 @@ var LogModel = require("../models/LogModel");
 
 function user_count() {
 	console.time("User Count");
-	LogModel.distinct("uuid", function (err, res) {
+	LogModel.distinct("log_id", function (err, res) {
 		if (err)
 		{
 			console.log(err);
 		} else
 		{
-			console.log("This system have: " + res.length + " distinct users");
+			//console.log("This system have: " + res.length + " distinct users");
+			console.log(res);
 		}
 		console.timeEnd("User Count");
 		process.exit(0);

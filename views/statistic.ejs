@@ -1,66 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Log report page</title>
+    <title>System information</title>
     <!-- Normalize -->
     <link href="/css/style.css" rel="stylesheet">
     <link href="/bower_components/normalize-css/normalize.css" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Odometer -->
+    <link href="/bower_components/FlipClock/compiled/flipclock.css" rel="stylesheet">
+
     <link href="/bower_components/odometer/themes/odometer-theme-car.css" rel="stylesheet">
+
 </head>
 <body class="my-body">
 <div class="container">
 
-    <!-- Label -->
-    <div class="row">
-        <h1 class="text-left title">Log report page</h1>
-        <hr/>
-    </div>
-
     <!-- Current value -->
     <div class="row">
         <input type="hidden" name="current_new" value="<%= new_user %>" id="hidden_new"/>
+
         <input type="hidden" name="current_all" value="<%= all_user %>" id="hidden_all"/>
+
+        <input type="hidden" name="current_paid_user" value="<%= paid_user %>" id="hidden_paid_user"/>
+
+        <input type="hidden" name="current_paid_value" value="<%= paid_value %>" id="hidden_paid_value"/>
     </div>
 
     <!-- Count down date -->
-    <div class="row title">
+    <hr/>
+    <div class="row jumbotron text-center">
         <div class="col-lg-12">
-            <div id="next-month">
+            <div id="next-month" class="next-month">
             </div>
         </div>
     </div>
-    <div class="row">
-        <hr>
-    </div>
-
+    <br>
     <!-- Show information -->
     <div class="row">
         <div class="jumbotron">
-            <div class="odometer" id="new_user_label">1</div>
-        </div>
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="row">
+                        <img data-src="holder.js/70x70/sky/text:Active" alt="..." class="img-circle">
 
+                        <div class="odometer" id="new_user_label"></div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <img data-src="holder.js/70x70/lava/text:All" alt="..." class="img-circle">
+
+                        <div class="register_user"></div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2">
+                    <div class="row">
+                        <img data-src="holder.js/70x70/sky/text:Paid" alt="..." class="img-circle">
+
+                        <div class="paid_user"></div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <img data-src="holder.js/70x70/lava/text:Money" alt="..." class="img-circle">
+
+                        <div class="paid_value"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <!--
-    <div class="row">
-        <div class="jumbotron">
-            <img data-src="holder.js/180x180/vine/text:<%= new_user %> new users" class="img-circle" id="new_user">
-
-            <img data-src="holder.js/180x180/lava/text:Have <%= all_user %>  users" class="img-circle">
-
-            <img data-src="holder.js/180x180/sky/text:Have <%= all_user %>  users" class="img-circle">
+    <!-- Draw chart -->
+    <div class="row fix-height">
+        <div class="jumbotron fix-height" id="chart">
+            <canvas id="myChart"></canvas>
         </div>
     </div>
-    -->
 
+    <hr/>
     <div class="row">
         <div class="jumbotron" id="report">
         </div>
     </div>
+
 
 </div>
 
@@ -73,10 +98,18 @@
 
 <script src="/bower_components/jquery.countdown/dist/jquery.countdown.js"></script>
 
+<script src="/bower_components/FlipClock/compiled/flipclock.js"></script>
+
 <script src="/bower_components/datejs/build/date.js"></script>
+
+<!-- Odometer js for chart -->
 <script src="/bower_components/odometer/odometer.js"></script>
 
+<!-- Chart js for chart -->
+<script src="/bower_components/Chart.js/Chart.js"></script>
+
+
 <script src="/socket.io/socket.io.js"></script>
-<script src="javascripts/salary.js"></script>
+<script src="javascripts/statistic.js"></script>
 </body>
 </html>

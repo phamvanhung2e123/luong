@@ -3,8 +3,8 @@ var db = mongoose.createConnection('mongodb://localhost/log');
 
 var DailySchema = mongoose.Schema({
 	date: Date,
-	login: Number,
-	new_user: Number,
+	login_user: Number,
+	register_user: Number,
 	paid_user: Number,
 	paid_value: Number
 });
