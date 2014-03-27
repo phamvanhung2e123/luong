@@ -24,6 +24,8 @@ var logSchema = mongoose.Schema({
 	device_name: String, // device type
 	miss: String, // scout type
 	hatena: Number //
+}, {
+    capped: 1024 * 1024
 });
 
 var LogModel = db.model("LogModel", logSchema);

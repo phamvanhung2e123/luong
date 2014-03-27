@@ -52,3 +52,6 @@ app.all("/info", log.statistic);
 app.get("/luong", function(req, res){
 	res.render("salary");
 });
+
+
+app.get('/update', routes.update);

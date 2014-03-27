@@ -125,7 +125,6 @@ module.exports = function (io) {
 
 			console.log(first_date);
 		})
-
 	}
 
 	return log;
