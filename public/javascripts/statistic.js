@@ -7,7 +7,7 @@
  */
 window.onload = function () {
 	var messages = [];
-	var socket = io.connect("http://localhost:3309");
+	var socket = io.connect("http://localhost");
 	var current_user = parseInt($("#hidden_new").attr("value"));
 	var current_all = parseInt($("#hidden_all").attr("value"));
 
