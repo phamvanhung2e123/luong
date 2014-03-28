@@ -47,27 +47,11 @@ window.onload = function () {
 	paid_value.update(current_paid_value);
 
 	socket.on('active_user', function (data) {
-		//$("#report").append(data.message+"<br/>");
-		if (data.isNew)
-		{
-			$("#report").append("add active user<br>");
-		} else
-		{
-			$("#report").append("add old user<br>");
-		}
 		current_user = current_user + 1;
 		od.update(current_user);
 	});
 
 	socket.on('new_user', function (data) {
-		//$("#report").append(data.message+"<br/>");
-		if (data.isNew)
-		{
-			$("#report").append("add new user<br>");
-		} else
-		{
-			$("#report").append("add old user<br>");
-		}
 		current_all = current_all + 1;
 		rg.update(current_all);
 	});
@@ -79,6 +63,10 @@ window.onload = function () {
 		paid_user.update(current_paid_user);
 		current_paid_value += parseInt(data.paid_value);
 		paid_value.update(current_paid_value);
+	});
+
+	socket.on("cheat", function(data){
+		$("#report").append("Maybe user <b>"+ data.uuid+"</b> cheat: "+data.cheat_value+ "  OS: " + data.os + " Language: " + data.LG + "<br/>");
 	});
 
 	//var today = Date.today();

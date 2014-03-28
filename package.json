@@ -17,6 +17,7 @@
 		"util": "*",
 		"async":"*",
 		"request": "*",
-        "csv": "*"
+        "csv": "*",
+		"underscore": "*"
 	}
 }

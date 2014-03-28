@@ -61,7 +61,7 @@ while line:
     print line
     line = csvfile.readline()
     import time
-    time.sleep(0.5)
+    time.sleep(0.02)
     request(line)
 
 csvfile.close
