@@ -4,6 +4,7 @@
  */
 var logParser = require("../helper/parse_log");
 var UniqueUserModel = require("../models/UniqueUserModel");
+var RegisterModel = require("../models/RegisterModel");
 var LogModel = require("../models/LogModel");
 var util = require("util");
 var async = require("async");
@@ -18,38 +19,46 @@ module.exports = function (io) {
 	log.daily_active = function (Log) {
 		console.log("On daily active");
 		var today = new Date.today();
+		if (Date.compare(new Date(Log.register_date), today) != 0)
+		{
+			return;
+		} else
+		{
+			async.waterfall([
+				// check if user exist or not
+				function (callback) {
+					UniqueUserModel.find({uuid: Log.uuid, last_login: today}, callback);
+				}, // if user not exist add to db
+				function (res, callback) {
+					if (res.length !== 0)
+					{
+						console.log("Not active user");
+						console.log(res);
+						return;
+					} else
+					{
+						var uniqueUser = new UniqueUserModel();
+						uniqueUser.uuid = Log.uuid;
+						uniqueUser.last_login = today;
+						uniqueUser.save();
+						io.sockets.emit("active_user", {message: "On new report of new user", isNew: 1});
+						DailyModel.update({date: today}, {'$inc': {paid_user: 0, paid_value: 0, login_user: 1, register_user: 0}, '$set': {date: today}}, {upsert: true}, callback);
+					}
 
-		async.waterfall([
-			// check if user exist or not
-			function (callback) {
-				UniqueUserModel.find({uuid: Log.uuid, last_login: today}, callback);
-			}, // if user not exist add to db
-			function (res, callback) {
-				if (res.length !== 0)
-				{
-					console.log("Not new user");
-					console.log(res);
-					return;
-				} else
-				{
-					var uniqueUser = new UniqueUserModel();
-					uniqueUser.uuid = Log.uuid;
-					uniqueUser.last_login = today;
-					uniqueUser.save();
-					log.register_user(Log);
-					io.sockets.emit("active_user", {message: "On new report of new user", isNew: 1});
-					DailyModel.update({date: today}, {'$inc': {paid_user: 0, paid_value: 0, login_user: 1, register_user: 0}, '$set': {date: today}}, {upsert: true}, callback);
+
 				}
-			}
 
-		], function (err, res) {
-			if (err)
-			{
-				return console.log(err);
-			}
+			], function (err, res) {
+				if (err)
+				{
+					return console.log(err);
+				}
 
-			return console.log(res);
-		});
+				return console.log(res);
+			});
+		}
+
+
 	}
 
 	log.register_user = function (Log) {
@@ -57,29 +66,32 @@ module.exports = function (io) {
 		async.waterfall([
 			// check if user exist or not
 			function (callback) {
-				UniqueUserModel.find({uuid: Log.uuid}, callback);
+				RegisterModel.find({uuid: Log.uuid}, callback);
 			}, // if user not exist add to db
 			function (res, callback) {
 				console.log(util.inspect(res));
 
-				if (res.length > 1)
+				if (res.length !== 0)
 				{
 					console.log("Not new user register");
 					console.log(res);
 					return;
 				} else
 				{
-
-					if (res.length === 0)
+					console.log("New user register");
+					if(Log.register_date != null)
 					{
-						var uniqueUser = new UniqueUserModel();
-						uniqueUser.uuid = Log.uuid;
-						uniqueUser.last_login = today;
-						uniqueUser.save();
+						var date =	Log.register_date;
+					}else{
+						var date = today;
 					}
 
+					var registerModel = new RegisterModel()
+					registerModel.uuid = Log.uuid
+					registerModel.register = date;
+					registerModel.save();
 					io.sockets.emit("new_user", {message: "On new report of new user", isNew: 1});
-					DailyModel.update({date: today}, {'$inc': {paid_user: 0, paid_value: 0, login_user: 0, register_user: 1}, '$set': {date: today}}, {upsert: true}, callback);
+					DailyModel.update({date: date}, {'$inc': {paid_user: 0, paid_value: 0, login_user: 0, register_user: 1}, '$set': {date: date}}, {upsert: true}, callback);
 				}
 			}
 
@@ -121,6 +133,7 @@ module.exports = function (io) {
 		var Log = new LogModel(LogParser);
 		Log.save();
 		log.daily_active(LogParser);
+		log.register_user(LogParser);
 		log.paid_user(LogParser);
 		req.flash("success", "Success report");
 		res.render("report", {message: req.flash("success")});
