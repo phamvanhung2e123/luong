@@ -137,7 +137,7 @@ module.exports = function (io) {
 				data.paid_user = result[0].paid_user;
 				data.paid_value = result[0].paid_value;
 			}
-			res.render("statistic", data);
+			res.render("design", data);
 		});
 
 		DailyModel.find({'date':{$gte: first_date}}, function(err, res){
