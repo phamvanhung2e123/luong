@@ -8,12 +8,13 @@
 window.onload = function () {
 	var messages = [];
 	var socket = io.connect("http://localhost:3309");
-	var current_user = parseInt($("#hidden_new").attr("value")) + 000000000;
-	var current_all = parseInt($("#hidden_all").attr("value")) + 000000000;
-	var current_paid_user = parseInt($("#hidden_paid_user").attr("value")) + 000000000;
-	var current_paid_value = parseInt($("#hidden_paid_value").attr("value")) + 000000000;
+	var current_user = parseInt($("#hidden_new").attr("value"));
+	var current_all = parseInt($("#hidden_all").attr("value"));
 
+	var current_paid_user = parseInt($("#hidden_paid_user").attr("value"));
+	var current_paid_value = parseInt($("#hidden_paid_value").attr("value"));
 
+	//TODO: init view for active user
 	var od = new Odometer({
 		el: document.querySelector('.odometer'),
 		value: 0,
@@ -21,6 +22,7 @@ window.onload = function () {
 	});
 	od.update(current_user);
 
+	//TODO: init view for all user
 	var rg = new Odometer({
 		el: document.querySelector(".register_user"),
 		value: 0,
@@ -28,6 +30,7 @@ window.onload = function () {
 	});
 	rg.update(current_all);
 
+	//TODO: init view for paid user
 	var paid_user = new Odometer({
 		el: document.querySelector(".paid_user"),
 		value: 0,
@@ -35,12 +38,26 @@ window.onload = function () {
 	});
 	paid_user.update(current_paid_user);
 
+	//TODO: init view for paid value
 	var paid_value = new Odometer({
 		el: document.querySelector(".paid_value"),
 		value: 0,
 		duration: 100
 	});
 	paid_value.update(current_paid_value);
+
+	socket.on('active_user', function (data) {
+		//$("#report").append(data.message+"<br/>");
+		if (data.isNew)
+		{
+			$("#report").append("add active user<br>");
+		} else
+		{
+			$("#report").append("add old user<br>");
+		}
+		current_user = current_user + 1;
+		od.update(current_user);
+	});
 
 	socket.on('new_user', function (data) {
 		//$("#report").append(data.message+"<br/>");
@@ -51,8 +68,8 @@ window.onload = function () {
 		{
 			$("#report").append("add old user<br>");
 		}
-		current_user = current_user + 1;
-		od.update(current_user);
+		current_all = current_all + 1;
+		rg.update(current_all);
 	});
 
 

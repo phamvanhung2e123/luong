@@ -27,6 +27,7 @@ module.exports = function (io) {
 			function (res, callback) {
 				if (res.length !== 0)
 				{
+					console.log("Not new user");
 					console.log(res);
 					return;
 				} else
@@ -35,7 +36,8 @@ module.exports = function (io) {
 					uniqueUser.uuid = Log.uuid;
 					uniqueUser.last_login = today;
 					uniqueUser.save();
-					io.sockets.emit("new_user", {message: "On new report of new user", isNew: 1});
+					log.register_user(Log);
+					io.sockets.emit("active_user", {message: "On new report of new user", isNew: 1});
 					DailyModel.update({date: today}, {'$inc': {paid_user: 0, paid_value: 0, login_user: 1, register_user: 0}, '$set': {date: today}}, {upsert: true}, callback);
 				}
 			}
@@ -51,13 +53,44 @@ module.exports = function (io) {
 	}
 
 	log.register_user = function (Log) {
-		console.log(util.inspect(Log));
 		var today = new Date.today();
-		if (Log.register_date)
-		{
+		async.waterfall([
+			// check if user exist or not
+			function (callback) {
+				UniqueUserModel.find({uuid: Log.uuid}, callback);
+			}, // if user not exist add to db
+			function (res, callback) {
+				console.log(util.inspect(res));
 
-			console.log(Date.compare(new Date(Log.register_date), today));
-		}
+				if (res.length > 1)
+				{
+					console.log("Not new user register");
+					console.log(res);
+					return;
+				} else
+				{
+
+					if (res.length === 0)
+					{
+						var uniqueUser = new UniqueUserModel();
+						uniqueUser.uuid = Log.uuid;
+						uniqueUser.last_login = today;
+						uniqueUser.save();
+					}
+
+					io.sockets.emit("new_user", {message: "On new report of new user", isNew: 1});
+					DailyModel.update({date: today}, {'$inc': {paid_user: 0, paid_value: 0, login_user: 0, register_user: 1}, '$set': {date: today}}, {upsert: true}, callback);
+				}
+			}
+
+		], function (err, res) {
+			if (err)
+			{
+				return console.log(err);
+			}
+
+			return console.log(res);
+		});
 	}
 
 	log.paid_user = function (Log) {
@@ -84,35 +117,34 @@ module.exports = function (io) {
 			return res.render("report", {message: ""});
 		}
 		var record = req.body.record;
-		//var Log = logParser.parse(record);
-		var  Log = new  LogModel(logParser.parse(record));
-		/*
-		log.daily_active(Log);
-		log.register_user(Log);
-		log.paid_user(Log);
-		*/
+		var LogParser = logParser.parse(record);
+		var Log = new LogModel(LogParser);
 		Log.save();
+		log.daily_active(LogParser);
+		log.paid_user(LogParser);
 		req.flash("success", "Success report");
 		res.render("report", {message: req.flash("success")});
 	}
 
 
-	log.process = function(Log){
+	log.process = function (Log) {
 		var today = new Date.today();
 		// check for login user
 		async.waterfall([
-			function(callback){
+			function (callback) {
 				var daily_model = DailyModel.find({date: today}, callback);
-			}, function(res, callback)
-			{
-				if(res.length  === 0)
+			}, function (res, callback) {
+				if (res.length === 0)
 				{
 					// neu chua co thi tao moi
-				}else{
+					console.log("Tao moi ok");
+					callback(null, []);
+				} else
+				{
 					callback(null, []);
 				}
 			}
-		], function(err, result){
+		], function (err, result) {
 			console.log("Ok man")
 		})
 
@@ -122,7 +154,7 @@ module.exports = function (io) {
 	log.statistic = function (req, res) {
 		var data = {};
 		var today = Date.today();
-		var first_date = new Date(today.getFullYear()+"-"+(today.getMonth()+1)+"-01");
+		var first_date = new Date(today.getFullYear() + "-" + (today.getMonth() + 1) + "-01");
 		DailyModel.find({date: Date.today()}, function (err, result) {
 			if (err || result.length === 0)
 			{
@@ -132,19 +164,20 @@ module.exports = function (io) {
 				data.paid_value = 0;
 			} else
 			{
-				data.new_user = result[0].register_user;
-				data.all_user = result[0].login_user;
+				data.new_user = result[0].login_user;
+				data.all_user = result[0].register_user;
 				data.paid_user = result[0].paid_user;
 				data.paid_value = result[0].paid_value;
 			}
-			res.render("design", data);
+			res.render("statistic", data);
 		});
 
-		DailyModel.find({'date':{$gte: first_date}}, function(err, res){
-			if(err)
+		DailyModel.find({'date': {$gte: first_date}}, function (err, res) {
+			if (err)
 			{
 				console.log(err);
-			}else{
+			} else
+			{
 				console.log(res);
 			}
 

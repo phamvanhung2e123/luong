@@ -53,5 +53,7 @@ app.get("/luong", function(req, res){
 	res.render("salary");
 });
 
+/*
 var routes = require("./routes")(io);
 app.get('/update', routes.update);
+*/
