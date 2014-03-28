@@ -16,6 +16,7 @@
 		"connect-flash": "*",
 		"util": "*",
 		"async":"*",
-		"request": "*"
+		"request": "*",
+        "csv": "*"
 	}
 }
