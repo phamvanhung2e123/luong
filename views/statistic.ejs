@@ -30,6 +30,7 @@
     <!-- Count down date -->
     <hr/>
     <div class="row jumbotron text-center">
+
         <div class="col-lg-12">
             <div id="next-month" class="next-month">
             </div>
@@ -71,6 +72,7 @@
             </div>
 
         </div>
+
     </div>
 
     <hr/>
@@ -80,6 +82,8 @@
     </div>
     <!-- Draw chart -->
     <div class="row fix-height">
+    <div id="container_graph" style="height: 400px; min-width: 310px"></div>
+
         <div class="jumbotron fix-height" id="chart">
             <canvas id="myChart"></canvas>
         </div>
@@ -112,9 +116,11 @@
 
 <script src="/bower_components/Chart.js/Chart.js"></script>
 
-<script src="javascripts/highcharts.js"></script>
+<script src="http://code.highcharts.com/stock/highstock.js"></script>
+<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
 
-<script src="javascripts/statistic.js"></script>
+<script src="javascripts/chart.js"></script>
+
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="javascripts/salary.js"></script>
