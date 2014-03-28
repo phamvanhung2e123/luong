@@ -52,12 +52,3 @@ app.all("/info", log.statistic);
 app.get("/luong", function(req, res){
 	res.render("salary");
 });
-
-/*
-var routes = require("./routes")(io);
-<<<<<<< HEAD
-app.get('/update', routes.update);
-*/
-=======
-//app.get('/update', routes.update);
->>>>>>> 72b51ad24ed30becab451af4a6de5210ba2f6588
