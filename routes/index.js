@@ -28,6 +28,7 @@ module.exports = function (io) {
             });
 
             stream.on('data', function (doc) {
+
                 messageCount++;
                 console.log(messageCount + '/' + doc._id);
 

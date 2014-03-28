@@ -84,13 +84,38 @@ module.exports = function (io) {
 			return res.render("report", {message: ""});
 		}
 		var record = req.body.record;
-		var Log = logParser.parse(record);
-
+		//var Log = logParser.parse(record);
+		var  Log = new  LogModel(logParser.parse(record));
+		/*
 		log.daily_active(Log);
 		log.register_user(Log);
 		log.paid_user(Log);
+		*/
+		Log.save();
 		req.flash("success", "Success report");
 		res.render("report", {message: req.flash("success")});
+	}
+
+
+	log.process = function(Log){
+		var today = new Date.today();
+		// check for login user
+		async.waterfall([
+			function(callback){
+				var daily_model = DailyModel.find({date: today}, callback);
+			}, function(res, callback)
+			{
+				if(res.length  === 0)
+				{
+					// neu chua co thi tao moi
+				}else{
+					callback(null, []);
+				}
+			}
+		], function(err, result){
+			console.log("Ok man")
+		})
+
 	}
 
 
