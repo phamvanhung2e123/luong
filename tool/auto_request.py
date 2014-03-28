@@ -51,13 +51,11 @@ def request(data):
     return result
 
 
-
-filename = "test.csv"
+argvs = sys.argv
+filename = argvs[1]
+print filename
 csvfile = open(filename)
 line = csvfile.readline()
-
-
-
 
 while line:
     print line
