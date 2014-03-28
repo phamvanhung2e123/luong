@@ -19,7 +19,7 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client.frienger_db
 
 # SERVER = 'http://spider-app.jinsei-iroiro.com'
-SERVER = "http://localhost:3309"
+SERVER = "http://localhost"
 APP_ID = '52fb0a4d6c76a309dcdb517f'
 BASE_URL = SERVER
 
@@ -42,9 +42,12 @@ def timer_print(f):
 
 @timer_print
 def request(data):
-    myurl = BASE_URL + '/port/report/'
+    myurl = BASE_URL + '/report'
     print "URL:-----   " + myurl
-    result = requests.post(myurl, data=data)
+    headers = {"Content-type": "application/x-www-form-urlencoded",
+                "Accept": "text/plain"}
+    result = requests.post(myurl, data={'record':data},headers=headers)
+    print result.text
     return result
 
 
