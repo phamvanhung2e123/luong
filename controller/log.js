@@ -114,7 +114,7 @@ module.exports = function (io) {
 		if (Log.log_id == constant.LOG_PAYMENT && validator.isNumeric(Log.payment))
 		{
 			var payment = parseInt(Log.payment);
-			if (typeof(payment) != "integer")
+			if (typeof(payment) != "number")
 			{
 				return;
 			}
