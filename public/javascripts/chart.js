@@ -6,6 +6,8 @@ $(function() {
 
     var current_paid_user = parseInt($("#hidden_paid_user").attr("value"));
     var current_paid_value = parseInt($("#hidden_paid_value").attr("value"));
+    var current_all_global = 0;
+    var current_all_value_global = 0;
 
     //TODO: init view for active user
     var od = new Odometer({
@@ -52,7 +54,18 @@ $(function() {
         od.update(current_user);
     });
 
+    function setValueAll(value)
+    {
+        window.myValue = value;
+    }
+
+    function getValue()
+    {
+        return window.myValue;
+    }
+
     socket.on('new_user', function (data) {
+        console.log(data);
         //$("#report").append(data.message+"<br/>");
         if (data.isNew)
         {
@@ -61,16 +74,27 @@ $(function() {
         {
             $("#report").append("add old user<br>");
         }
+
         current_all = current_all + 1;
+
+        current_all_global = current_all_global +1;
+        console.log("Current :"+ current_all_global);
         rg.update(current_all);
     });
+    var current_all_paid_global = 0;
 
 
     socket.on('new_paid', function (data) {
+        console.log(data);
+
         $("#report").append(data.msg);
         current_paid_user += 1;
+
         paid_user.update(current_paid_user);
         current_paid_value += parseInt(data.paid_value);
+        current_all_paid_global += current_paid_value;
+        console.log("paid value :"+ current_all_paid_global);
+
         paid_value.update(current_paid_value);
     });
 
@@ -95,37 +119,6 @@ $(function() {
     clock.setCountdown(true);
 
 
-    var data = {
-        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [
-            {
-                fillColor: "rgba(220,220,120,0.8)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(55,55,55,1)",
-                pointStrokeColor: "#fff",
-                data: [65, 59, 90, 81, 56, 55, 40, 0, 0, 0, 0, 0]
-            },
-            {
-                fillColor: "rgba(251,87,105,0.4)",
-                strokeColor: "rgba(251,87,105,1)",
-                pointColor: "rgba(251,87,105,1)",
-                pointStrokeColor: "#fff",
-                data: [35, 78, 56, 19, 86, 47, 90, 0, 0, 0, 0, 0]
-            },
-            {
-                fillColor: "rgba(151,187,205,0.8)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                data: [28, 48, 40, 19, 96, 27, 181, 0, 0, 0, 0, 0]
-            }
-        ]
-    };
-    var canvas = document.getElementById("myChart");
-    var ctx = canvas.getContext("2d");
-    fitToContainer(canvas);
-
-    var myNewChart = new Chart(ctx).Line(data);
 
     function fitToContainer(canvas) {
         canvas.style.width = '100%';
@@ -134,34 +127,129 @@ $(function() {
         canvas.height = canvas.offsetHeight;
     }
 
+    function buildGraph(){
+        $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function(data) {
 
-    $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function(data) {
+            // Create the chart
+            $('#container_graph').highcharts('StockChart', {
+
+
+                rangeSelector : {
+                    inputEnabled: $('#container').width() > 480,
+                    selected : 1
+                },
+
+                title : {
+                    text : 'AAPL Stock Price'
+                },
+
+                series : [{
+                    name : 'AAPL Stock Price',
+                    data : data,
+                    marker : {
+                        enabled : true,
+                        radius : 3
+                    },
+                    shadow : true,
+                    tooltip : {
+                        valueDecimals : 2
+                    }
+                }]
+            });
+        });
+
+    }
+    function buildStockGraph(){
+        Highcharts.setOptions({
+            global : {
+                useUTC : false
+            }
+        });
 
         // Create the chart
         $('#container_graph').highcharts('StockChart', {
+            chart : {
+                events : {
+                    load : function() {
 
+                        // set up the updating of the chart each second
+                        var series = this.series[0];
+                        var series1 = this.series[1];
 
-            rangeSelector : {
-                inputEnabled: $('#container').width() > 480,
-                selected : 1
+                        setInterval(function() {
+                            var x = (new Date()).getTime(), // current time
+                                y = current_all_global;
+                            series.addPoint([x, y], true, true);
+                            var x = (new Date()).getTime(), // current time
+                                y = current_all_paid_global;
+                            series1.addPoint([x, y], true, true);
+                            console.log("Set inver current: " + current_all_global );
+                            console.log("Set inver paid: " + current_all_paid_global );
+
+                            current_all_global = 0;
+                            current_all_paid_global =0;
+                        }, 1000);
+                    }
+                }
+            },
+
+            rangeSelector: {
+                buttons: [{
+                    count: 1,
+                    type: 'minute',
+                    text: '1M'
+                }, {
+                    count: 5,
+                    type: 'minute',
+                    text: '5M'
+                }, {
+                    type: 'all',
+                    text: 'All'
+                }],
+                inputEnabled: false,
+                selected: 0
             },
 
             title : {
-                text : 'AAPL Stock Price'
+                text : 'Live random data'
+            },
+
+            exporting: {
+                enabled: false
             },
 
             series : [{
-                name : 'AAPL Stock Price',
-                data : data,
-                marker : {
-                    enabled : true,
-                    radius : 3
-                },
-                shadow : true,
-                tooltip : {
-                    valueDecimals : 2
+                name : 'Active user',
+                data : (function() {
+                    // generate an array of random data
+                    var data = [], time = (new Date()).getTime(), i;
+
+                    for( i = -999; i <= 0; i++) {
+                        data.push([
+                            time + i * 1000,
+                            Math.round(Math.random() * 100)
+                        ]);
+                    }
+                    return data;
+                })()
+            },
+                {
+                    name : 'Paid value',
+                    data : (function() {
+                            var data = [], time = (new Date()).getTime(), i;
+                            for( i = -999; i <= 0; i++) {
+                                data.push([
+                                    time + i * 1000,
+                                    Math.round(Math.random() * 100)
+                                ]);
+                            }
+                            return data;
+
+                    })()
                 }
-            }]
+            ]
         });
-    });
+    }
+    buildStockGraph();
+
 });
