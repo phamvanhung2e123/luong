@@ -8,7 +8,7 @@ $(function() {
     var current_paid_value = parseInt($("#hidden_paid_value").attr("value"));
     var current_all_global = 0;
     var current_all_value_global = 0;
-
+    var snow_flag = 0;
     //TODO: init view for active user
     var od = new Odometer({
         el: document.querySelector('.odometer'),
@@ -65,8 +65,6 @@ $(function() {
     }
 
     socket.on('new_user', function (data) {
-        console.log(data);
-        //$("#report").append(data.message+"<br/>");
         if (data.isNew)
         {
             $("#report").append("add new user<br>");
@@ -78,15 +76,25 @@ $(function() {
         current_all = current_all + 1;
 
         current_all_global = current_all_global +1;
-        console.log("Current :"+ current_all_global);
         rg.update(current_all);
+        if(current_all_global>=100&&snow_flag==0)
+            try {
+                snow.count = 30;   // number of flakes
+                snow.delay = 20;   // timer interval
+                snow.minSpeed = 2; // minimum movement/time slice
+                snow.maxSpeed = 5; // maximum movement/time slice
+                snow.start();
+                snow_flag=1;
+            } catch(e) {
+                // no snow :(
+            }
+
     });
 
     var current_all_paid_global = 0;
 
 
     socket.on('new_paid', function (data) {
-        console.log(data);
 
         $("#report").append(data.msg);
         current_paid_user += 1;
@@ -97,12 +105,12 @@ $(function() {
         console.log("paid value :"+ current_all_paid_global);
 
         paid_value.update(current_paid_value);
+
     });
 
     //var today = Date.today();
     var next_time = Date.today().set({year: Date.today().getFullYear(), month: Date.today().getMonth()+1, day: 01, hour: 0, minute: 0});
 
-    console.log(next_time);
     /*
      console.log(today);
      $('#next-month').countdown(nextMonth, function (event) {
@@ -340,6 +348,8 @@ $(function() {
         }
     }
     buildStockGraph();
+
+
 
 
 
