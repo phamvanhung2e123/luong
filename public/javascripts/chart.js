@@ -93,7 +93,7 @@ $(function() {
 
         paid_user.update(current_paid_user);
         current_paid_value += parseInt(data.paid_value);
-        current_all_paid_global += current_paid_value;
+        current_all_paid_global += 1;
         console.log("paid value :"+ current_all_paid_global);
 
         paid_value.update(current_paid_value);
@@ -255,7 +255,7 @@ $(function() {
     function initialize() {
         var mapOptions = {
             zoom: 10,
-            center: new google.maps.LatLng(-33.9, 151.2)
+            center: new google.maps.LatLng(35.664036, 139.698211)
         }
         var map = new google.maps.Map(document.getElementById('map'),
             mapOptions);
@@ -286,9 +286,6 @@ $(function() {
         // Origins, anchor positions and coordinates of the marker
         // increase in the X direction to the right and in
         // the Y direction down.
-        var image = {
-            url: 'css/icon.png'
-        };
         // Shapes define the clickable region of the icon.
         // The type defines an HTML &lt;area&gt; element 'poly' which
         // traces out a polygon as a series of X,Y points. The final
@@ -299,21 +296,19 @@ $(function() {
             type: 'poly'
         };
         setInterval(function() {
-            var beach = ['Maroubra Beach' + getRandomInt(1,100), -33.950198 + getRandomInt(1,100)/100, 151.259302 + getRandomInt(1,100)/100, 1];
+            var beach = ['Maro' + getRandomInt(1,1000), 35.664036 + getRandomInt(1,10000)/5000, 139.698211+ getRandomInt(1,10000)/5000, 1];
             var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
 
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
-                icon: image,
-                shape: shape,
                 title: beach[0],
                 zIndex: beach[3]
             });
         }, 1000);
 
-
     }
+
     google.maps.event.addDomListener(window, 'load', initialize);
 
     function getRandomInt (min, max) {
@@ -331,17 +326,10 @@ $(function() {
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 };
                 var map = new google.maps.Map(document.getElementById('map'), options);
-                var image = new google.maps.MarkerImage('http://www.preschool-navi.jp/static/img/search/icon.png',
-                    // This marker is 20 pixels wide by 32 pixels tall.
-                    // The origin for this image is 0,0.
-                    new google.maps.Point(0,0),
-                    // The anchor for this image is the base of the flagpole at 0,32.
-                    new google.maps.Point(0, 32));
                 var marker = new google.maps.Marker({
                     position: latlng,
                     map: map,
-                    title: '現在地',
-                    icon: image
+                    title: '現在地'
                 });
                 alert(marker);
             }, function(e) {
