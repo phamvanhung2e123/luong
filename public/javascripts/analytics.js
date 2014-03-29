@@ -2,7 +2,7 @@ $(function() {
 
 	$(document).ready(function() {
 
-		var rqdataUrl = 'http://ec2-54-251-23-25.ap-southeast-1.compute.amazonaws.com/';//Define URL for make
+		var rqdataUrl = 'http://localhost/graph';//Define URL for make
 
 		// define the options
 		function configureChart(title, col_name, date_length) {
