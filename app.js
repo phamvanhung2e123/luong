@@ -47,8 +47,12 @@ app.get("/", function(req, res){
 
 app.get('/users', user.list);
 var log = require("./controller/log")(io);
+
+var collect = require("./controller/collect")(app);
 app.all("/report", log.report);
 app.all("/info", log.statistic);
 app.get("/luong", function(req, res){
 	res.render("salary");
 });
+
+app.all("/collect", collect.collect);
