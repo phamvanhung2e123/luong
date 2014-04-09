@@ -6,7 +6,7 @@ module.exports = function(app){
 	var collect = {}
 	collect.collect = function(req, res)
 	{
-		console.log("add test");
+		console.log(req.body);
 		return res.send("Ok");
 	}
 
