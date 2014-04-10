@@ -2,7 +2,6 @@
  * Created by hoangnn on 4/8/14.
  */
 var validator = require("validator");
-var ActiveModel = require("../models/ActiveModel");
 var _ = require("underscore");
 var analytics = require("../tool/analytics");
 var constant = require("../config/constant");
@@ -23,7 +22,7 @@ function log_validate(log) {
 
 	// validate log type
 
-	if(!_.isNumber(log.type))
+	if (!_.isNumber(log.type))
 	{
 		return false;
 	}
@@ -31,19 +30,16 @@ function log_validate(log) {
 
 	// other validate
 
-	// validate log type
-
 	return true;
 }
 
-function paid_log_validate(log)
-{
-	if(!_.isNumber(log.paid_value))
+function paid_log_validate(log) {
+	if (!_.isNumber(log.paid_value))
 	{
 		return false;
 	}
 
-	if(!_.isString(log.coin_unit))
+	if (!_.isString(log.coin_unit))
 	{
 		return false;
 	}
@@ -62,13 +58,17 @@ module.exports = function (app) {
 
 	collect.collect = function (req, res) {
 		res.send("Ok");
-		console.log(req.body);
-		if(typeof (req.body) == 'object' && typeof(req.body[0]) !== 'undefined' && (req.body[0]).length === 3)
+		//console.log(req.body);
+		if (typeof (req.body) == 'object' && typeof(req.body[0]) !== 'undefined' && (req.body[0]).length === 3)
 		{
-			data = req.body[0][2];
-			collect.analytics(data);
+			for (var i = 0; i < req.body.length; i++)
+			{
+				data = req.body[i][2];
+				collect.analytics(data);
+			}
 			return true;
-		}else{
+		} else
+		{
 			console.log("Please send an array: " + typeof (req.body));
 			return false;
 		}
@@ -81,87 +81,52 @@ module.exports = function (app) {
 
 
 	collect.analytics = function (log) {
-
-		Object.keys(log).forEach(function (key) {
-			console.log("Value for " + key + " is : " + log[key]);
-		});
-
-		if(log_validate(log))
+		if (log_validate(log))
 		{
 			console.log("Valid log");
 
-			if(log.type === constant.LOG_REGISTER )
+			if (log.type === constant.LOG_REGISTER)
 			{
-				analytics.install(log, function(err, res){
+				analytics.install(log, function (err, res) {
 					console.log(res);
 				});
 			}
 
-			if(log.type === constant.LOG_LOGIN )
+			if (log.type === constant.LOG_LOGIN)
 			{
-				analytics.login(log, function(err, res){
+				analytics.login(log, function (err, res) {
 					console.log(res);
 				});
 			}
 
-			if(log.type === constant.LOG_ACTIVE_START )
+			if (log.type === constant.LOG_ACTIVE_START)
 			{
-				analytics.active(log, function(err, res){
+				analytics.active(log, function (err, res) {
 					console.log(res);
 				});
 			}
 
-			if(log.type === constant.LOG_ACTIVE_END )
+			if (log.type === constant.LOG_ACTIVE_END)
 			{
-				analytics.inactive(log, function(err, res){
+				analytics.inactive(log, function (err, res) {
 					console.log(res);
 				});
 			}
 
-			if(log.type === constant.LOG_PAYMENT )
+			if (log.type === constant.LOG_PAYMENT && paid_log_validate(log))
 			{
-				if(paid_log_validate(log)){
-					console.log("Valid payment");
-					analytics.paid(log, function(err, res){
-						//console.log(res);
-					});
-				}else
-				{
-					console.log("invalid payment");
-					return false;
-				}
-
+				console.log("Valid payment");
+				analytics.paid(log, function (err, res) {
+					console.log(res);
+				});
 			}
 
-		}else{
+		} else
+		{
 			console.log("not valid log");
 			return false;
 		}
 	}
-
-	/*
-	collect.testdb = function (req, res) {
-		console.time("INSERT");
-		for (var i = 0; i < 10000; i++)
-		{
-			uuid = "uuid" + randomInt(0, 600);
-			ActiveModel.activeUser(uuid, "loggee", function(err, result){
-				console.log(result);
-			});
-		}
-		console.timeEnd("INSERT");
-		return res.send("ok");
-	}
-
-	collect.active = function(req, res)
-	{
-		ActiveModel.getDailyActiveUserByDate(Date.today().addDays(1), function(err, result){
-
-		});
-
-		return res.send("ok");
-	}
-	*/
 
 	return collect;
 }

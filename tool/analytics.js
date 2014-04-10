@@ -23,7 +23,8 @@ analytics.install = function (log, callback) {
 		{
 			var app_info = new AppInfoModel();
 			app_info.created = new Date().toISOString();
-			app_info.time = Math.round(Date.now() / 1000);
+			app_info.timestamp = Math.round(Date.now() / 1000);
+			app_info.time = Date.today();
 			app_info.uuid = log.uuid;
 			app_info.app_id = log.app_id;
 			app_info.os = log.os;
@@ -85,30 +86,36 @@ analytics.active = function (log, callback) {
 analytics.inactive = function (log, callback) {
 	var current = Math.round(Date.now() / 1000);
 	ActiveModel.findOneAndUpdate({end_time: null, app_id: log.app_id}, {end_time: current, modified: new Date().toISOString()}, {start_time: -1}, function (err, res) {
-			if (err)
+		if (err)
+		{
+			console.log("Inactive err: " + util.inspect(err));
+			return callback(err, null);
+		} else
+		{
+			console.log("Inactive res: " + util.inspect(res));
+			if (res == null)
 			{
-				console.log("Inactive err: " + util.inspect(err));
-				return callback(err, null);
+				return callback(null, {inactive: 0});
 			} else
 			{
-				console.log("Inactive res: " + util.inspect(res));
-				if (res == null)
-				{
-					return callback(null, {inactive: 0});
-				} else
-				{
-					return callback(null, {inactive: 1});
-				}
-
+				return callback(null, {inactive: 1});
 			}
-		});
+
+		}
+	});
 }
 
 analytics.login = function (log, callback) {
 
 	var today = Date.today();
+	var tomorrow = Date.tomorrow();
 
-	DailyActiveModel.findOne({uuid: log.uuid, time: {$gte: today}, app_id: log.app_id}, function (err, res) {
+	DailyActiveModel.findOne({$and: [
+		{uuid: log.uuid},
+		{time: {$gte: today}},
+		{time: {$lt: tomorrow}},
+		{app_id: log.app_id}
+	]}, function (err, res) {
 		if (err)
 		{
 			console.log(err);
@@ -121,6 +128,7 @@ analytics.login = function (log, callback) {
 				daily.app_id = log.app_id;
 				daily.uuid = log.uuid;
 				daily.time = today;
+				daily.timestamp = Math.round(Date.now() / 1000);
 				daily.created = new Date().toISOString();
 				daily.save(function (err, res) {
 					if (err)
@@ -135,15 +143,15 @@ analytics.login = function (log, callback) {
 				});
 			} else
 			{
+				console.log(res);
 				return callback(null, {login: 0});
 			}
 		}
 	});
 }
 
-function convert_ratio(coin_unit)
-{
-	if(coin_unit == "JP")
+function convert_ratio(coin_unit) {
+	if (coin_unit == "JP")
 	{
 		return 0.73;
 	}
@@ -151,27 +159,27 @@ function convert_ratio(coin_unit)
 	return 1;
 }
 
-function convert_coin(coin_unit, value)
-{
+function convert_coin(coin_unit, value) {
 	convert_rate = convert_ratio(coin_unit);
-	return value*convert_rate;
+	return Number(value * convert_rate).toFixed(2);
 }
 
-analytics.paid = function(log, callback)
-{
+analytics.paid = function (log, callback) {
 	var paid_model = new PaidModel();
-	paid_model.time = Math.round(Date.now()/1000);
+	paid_model.timestamp = Math.round(Date.now() / 1000);
+	paid_model.time = Date.today();
 	paid_model.uuid = log.uuid;
+	paid_model.app_id = log.app_id;
 	paid_model.paid_value = log.paid_value;
 	paid_model.coin_unit = log.coin_unit;
 	paid_model.paid_converted = convert_coin(paid_model.coin_unit, paid_model.paid_value);
 	paid_model.created = new Date().toISOString();
-	paid_model.save(function(err, res){
-		if(err)
+	paid_model.save(function (err, res) {
+		if (err)
 		{
 			console.log(err);
 			return callback(err, null);
-		}else
+		} else
 		{
 			console.log(res);
 			return callback(null, {uuid: log.uuid, paid: paid_model.paid_converted});

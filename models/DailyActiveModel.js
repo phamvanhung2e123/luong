@@ -8,6 +8,7 @@ var db = mongoose.createConnection('mongodb://localhost/loggee');
 
 var DailyActiveSchema = mongoose.Schema({
 	time: Date,
+	timestamp: Number,
 	app_id: String,
 	uuid: String,
 	created: String

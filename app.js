@@ -47,10 +47,13 @@ app.get("/", function(req, res){
 
 app.get('/users', user.list);
 var log = require("./controller/log")(io);
+var info = require("./controller/info")(app);
 
 var collect = require("./controller/collect")(app);
 app.all("/report", log.report);
-app.all("/info", log.statistic);
+app.all("/dau", info.dau);
+app.all("/install", info.install);
+app.all("/revenue", info.revenue);
 app.get("/luong", function(req, res){
 	res.render("salary");
 });
@@ -58,9 +61,3 @@ app.get("/luong", function(req, res){
 app.all("/collect", collect.collect);
 
 app.all("/collect_old", collect.collect_old);
-
-/*
-app.all("/db", collect.testdb);
-
-app.all("/active", collect.active);
-*/

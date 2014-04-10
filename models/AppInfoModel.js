@@ -7,7 +7,8 @@ var mongoose = require("mongoose");
 var db = mongoose.createConnection('mongodb://localhost/loggee');
 
 var AppUserInfoSchema = mongoose.Schema({
-	time: Number,
+	timestamp: Number,
+	time: Date,
 	app_id: String,
 	uuid: String,
 	os: String,
