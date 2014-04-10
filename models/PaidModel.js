@@ -1,0 +1,26 @@
+/**
+ * Created by hoangnn on 4/9/14.
+ * For Loggee
+ */
+var constant = require("../config/constant");
+
+var mongoose = require("mongoose");
+var db = mongoose.createConnection('mongodb://localhost/loggee');
+
+var PaidSchema = mongoose.Schema({
+	time: Number,
+	app_id: String,
+	uuid: String,
+	item_name: String,
+	paid_value: Number,
+	paid_converted: Number,
+	coin_unit: String,
+	coin_converted_unit: {type: String, default: constant.COIN_UNIT_USA},
+	created: String
+})
+
+
+var PaidModel = db.model('Paid', PaidSchema);
+
+module.exports = PaidModel;
+
