@@ -56,3 +56,11 @@ app.get("/luong", function(req, res){
 });
 
 app.all("/collect", collect.collect);
+
+app.all("/collect_old", collect.collect_old);
+
+/*
+app.all("/db", collect.testdb);
+
+app.all("/active", collect.active);
+*/

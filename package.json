@@ -18,6 +18,8 @@
 		"async":"*",
 		"request": "*",
         "csv": "*",
-		"underscore": "*"
+		"underscore": "*",
+		"winston": "*",
+		"mongodb": "*"
 	}
 }
