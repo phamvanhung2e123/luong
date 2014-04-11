@@ -20,7 +20,7 @@ summary.dauFromDate = function (date, app_id, callback) {
 	DailyActiveModel.aggregate([
 			{$match: {time: {$gte: date}, app_id: app_id}},
 			{$group: {_id: '$time', count: {$sum: 1}}},
-			{sort: {_id: -1}}
+			{$sort: {_id: -1}}
 		]).exec(function (err, res) {
 		if (err)
 		{

@@ -21,6 +21,7 @@ module.exports = function (app) {
 	info.dau = function (req, res) {
 		var app_id = req.query.app_id;
 		var date = new Date(req.query.date).addDays(-1);
+		console.log("App id: " + app_id + " date : " + date);
 		summary.dauFromDate(date, app_id, function(err, result){
 			return res.send(result);
 		});
