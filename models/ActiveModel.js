@@ -8,6 +8,12 @@ require("date-utils");
 var ActiveSchema = mongoose.Schema({
 	app_id: String,
 	uuid: String,
+	os: String,
+	os_version: String,
+	os_name: String,
+	os_language: String,
+	app_version: String,
+	location: String,
 	start_time: Number,
 	end_time: Number,
 	created: String,

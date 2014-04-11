@@ -46,16 +46,28 @@ app.get("/", function(req, res){
 });
 
 app.get('/users', user.list);
-var log = require("./controller/log")(io);
+var log = require("./controller/before/log")(io);
 var info = require("./controller/info")(app);
 
 var collect = require("./controller/collect")(app);
 app.all("/report", log.report);
 app.all("/dau", info.dau);
 app.all("/install", info.install);
+app.all("/install/os", info.install_os);
 app.all("/revenue", info.revenue);
+app.all("/active", info.active);
+
+
 app.get("/luong", function(req, res){
 	res.render("salary");
+});
+
+var moment = require("moment");
+app.get("/date", function(req, res){
+	var week = moment().startOf('week');
+	var month = moment().startOf('month');
+
+	return res.send({week: week, month: month});
 });
 
 app.all("/collect", collect.collect);

@@ -11,6 +11,12 @@ var DailyActiveSchema = mongoose.Schema({
 	timestamp: Number,
 	app_id: String,
 	uuid: String,
+	os: String,
+	os_version: String,
+	os_name: String,
+	os_language: String,
+	app_version: String,
+	location: String,
 	created: String
 })
 
